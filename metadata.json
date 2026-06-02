@@ -1,0 +1,6 @@
+{
+  "name": "CNH Sem Delongas",
+  "description": "Procedimento rápido e garantido para tirar a sua CNH dentro das diretrizes do DETRAN. Fale conosco no WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
