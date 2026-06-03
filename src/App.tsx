@@ -28,16 +28,7 @@ import { CNH_SERVICES, LICENSE_CATEGORIES, SYSTEM_STEPS, FAQ_QUESTIONS, OUTHER_S
 import { CNHServiceType, LicenseCategory } from './types';
 
 export default function App() {
-  // Configurable dynamic destination phone number
-  const [adminPhone, setAdminPhone] = useState<string>(() => {
-    const saved = localStorage.getItem('cnh_admin_phone');
-    if (!saved || saved === '5511999999999') {
-      return '5566996690633';
-    }
-    return saved;
-  });
-  const [showConfig, setShowConfig] = useState<boolean>(false);
-  const [inputPhone, setInputPhone] = useState<string>(adminPhone);
+  const adminPhone = '5566996690633';
 
   // Form selections and lead state
   const [name, setName] = useState<string>('');
@@ -50,28 +41,6 @@ export default function App() {
 
   // Success indicator for testing redirect
   const [hasRedirected, setHasRedirected] = useState<boolean>(false);
-
-  // Update original adminPhone when configured
-  const savePhoneConfig = (e: React.FormEvent) => {
-    e.preventDefault();
-    const cleanNumbers = inputPhone.replace(/\D/g, '');
-    if (cleanNumbers.length >= 10) {
-      setAdminPhone(cleanNumbers);
-      localStorage.setItem('cnh_admin_phone', cleanNumbers);
-      setShowConfig(false);
-    } else {
-      alert('Por favor, digite um número de WhatsApp válido com DDD!');
-    }
-  };
-
-  // Quick reset to default target number
-  const resetToDefaultPhone = () => {
-    const defaultNumber = '5566996690633';
-    setAdminPhone(defaultNumber);
-    setInputPhone(defaultNumber);
-    localStorage.setItem('cnh_admin_phone', defaultNumber);
-    setShowConfig(false);
-  };
 
   // Build the pre-filled WhatsApp message URL
   const buildWhatsAppUrl = () => {
@@ -118,81 +87,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased flex flex-col justify-between">
       
-      {/* Top Admin / Config Bar - Subtle configuration option for owners */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 flex justify-between items-center border-b border-slate-800">
+      {/* Top Admin / Status Bar */}
+      <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 flex justify-center items-center border-b border-slate-800">
         <div className="flex items-center gap-1.5">
           <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
           <span>Landing Page Ativa • Detran Integrado {selectedState}</span>
         </div>
-        <div className="flex items-center gap-4">
-          <button 
-            id="btn-admin-config"
-            onClick={() => setShowConfig(!showConfig)}
-            className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer text-[11px] font-medium tracking-wide uppercase bg-slate-800 py-1 px-2.5 rounded border border-slate-700"
-          >
-            <Sliders className="w-3 animate-pulse h-3 text-amber-400" />
-            Configurar Whatsapp de Destino
-          </button>
-        </div>
       </div>
-
-      {/* Admin Panel Expandable */}
-      <AnimatePresence>
-        {showConfig && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="bg-slate-800 text-white border-b border-amber-500/20 shadow-inner overflow-hidden"
-          >
-            <div className="max-w-4xl mx-auto p-4 md:py-6">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <h4 className="text-sm font-semibold text-amber-400 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-amber-400" />
-                    Configuração de Recebimento de Leads
-                  </h4>
-                  <p className="text-xs text-slate-300 mt-1 max-w-xl">
-                    Excelente para corretores e assessores! Digite abaixo o WhatsApp da sua agência. Toda vez que um cliente preencher o formulário, será gerada uma conversa diretamente para você com os dados preenchidos.
-                  </p>
-                </div>
-                <form onSubmit={savePhoneConfig} className="flex flex-col sm:flex-row gap-2 shrink-0">
-                  <div className="relative">
-                    <span className="absolute left-3 top-2.5 text-xs text-slate-400 font-mono">+</span>
-                    <input 
-                      type="text" 
-                      value={inputPhone} 
-                      onChange={(e) => setInputPhone(e.target.value)}
-                      placeholder="Ex: 5511999999999" 
-                      className="bg-slate-900 border border-slate-700 rounded px-3 py-2 text-xs font-mono text-white pl-6 w-52 focus:outline-none focus:border-amber-400"
-                    />
-                  </div>
-                  <div className="flex gap-1">
-                    <button 
-                      type="submit" 
-                      className="bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-slate-900 text-xs font-bold px-3 py-2 rounded transition-colors cursor-pointer"
-                    >
-                      Salvar Telefone
-                    </button>
-                    <button 
-                      type="button" 
-                      onClick={resetToDefaultPhone}
-                      className="bg-slate-700 hover:bg-slate-600 text-xs text-slate-200 px-2.5 py-2 rounded transition-colors cursor-pointer"
-                      title="Resetar para o padrão"
-                    >
-                      Padrão
-                    </button>
-                  </div>
-                </form>
-              </div>
-              <div className="text-[10px] text-amber-500/80 mt-2 font-mono flex items-center gap-1">
-                <CheckCircle className="w-3 h-3" />
-                Número ativo para recebimento de chamados: {adminPhone} (Formatado para API: {adminPhone.replace(/\D/g, '')})
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Main Elegant Header */}
       <header className="bg-white border-b border-slate-200/80 shadow-sm sticky top-0 z-40 backdrop-blur-md bg-white/95">
