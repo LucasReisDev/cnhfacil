@@ -30,7 +30,11 @@ import { CNHServiceType, LicenseCategory } from './types';
 export default function App() {
   // Configurable dynamic destination phone number
   const [adminPhone, setAdminPhone] = useState<string>(() => {
-    return localStorage.getItem('cnh_admin_phone') || '5511999999999';
+    const saved = localStorage.getItem('cnh_admin_phone');
+    if (!saved || saved === '5511999999999') {
+      return '5566996690633';
+    }
+    return saved;
   });
   const [showConfig, setShowConfig] = useState<boolean>(false);
   const [inputPhone, setInputPhone] = useState<string>(adminPhone);
@@ -62,7 +66,7 @@ export default function App() {
 
   // Quick reset to default target number
   const resetToDefaultPhone = () => {
-    const defaultNumber = '5511999999999';
+    const defaultNumber = '5566996690633';
     setAdminPhone(defaultNumber);
     setInputPhone(defaultNumber);
     localStorage.setItem('cnh_admin_phone', defaultNumber);
@@ -224,7 +228,7 @@ export default function App() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1">
+      <main className="flex-1 pb-20 md:pb-0">
 
         {/* Hero & Interactive Section */}
         <section className="relative bg-gradient-to-b from-sky-50/70 via-white to-slate-50 py-10 md:py-16 overflow-hidden">
@@ -700,6 +704,21 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Botão flutuante do WhatsApp para Mobile */}
+      <div className="fixed bottom-0 left-0 right-0 p-3 bg-white/90 backdrop-blur-md border-t border-slate-200/80 z-50 md:hidden flex items-center justify-between shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+        <div className="flex flex-col pl-2">
+          <span className="text-[9px] uppercase tracking-wider font-bold text-slate-400">Atendimento Rápido</span>
+          <span className="text-xs font-bold text-slate-800">Tire suas dúvidas</span>
+        </div>
+        <button
+          onClick={handleWhatsAppAction}
+          className="flex-1 ml-4 py-3.5 px-4 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white rounded-xl font-bold text-center flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 transition-all text-xs uppercase tracking-wider"
+        >
+          <Phone className="w-4 h-4 fill-white" />
+          Chame Agora
+        </button>
+      </div>
 
     </div>
   );
