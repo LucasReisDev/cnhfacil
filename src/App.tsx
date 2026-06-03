@@ -36,8 +36,6 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<LicenseCategory>('B');
   const [selectedState, setSelectedState] = useState<string>('SP');
 
-  // FAQ state
-  const [openFaq, setOpenFaq] = useState<string | null>(null);
 
   // Success indicator for testing redirect
   const [hasRedirected, setHasRedirected] = useState<boolean>(false);
@@ -472,61 +470,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Core FAQ Section */}
-        <section className="bg-white py-12 border-t border-slate-100">
-          <div className="max-w-4xl mx-auto px-4">
-            
-            <div className="text-center mb-10">
-              <span className="text-xs uppercase tracking-widest font-bold text-amber-600">tira-dúvidas de trânsito</span>
-              <h2 className="font-display font-bold text-2xl md:text-3xl text-slate-950 mt-2">
-                Perguntas Frequentes
-              </h2>
-              <p className="text-xs text-slate-500 mt-1">
-                Todas as dúvidas com respostas objetivas para esclarecer nosso procedimento de forma transparente.
-              </p>
-            </div>
-
-            <div className="space-y-3.5">
-              {FAQ_QUESTIONS.map((faq) => {
-                const isOpen = openFaq === faq.id;
-                return (
-                  <div 
-                    key={faq.id} 
-                    className="border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:border-slate-300 transition-colors"
-                  >
-                    <button
-                      onClick={() => setOpenFaq(isOpen ? null : faq.id)}
-                      className="w-full text-left p-4 bg-slate-50/60 hover:bg-slate-50 flex justify-between items-center cursor-pointer select-none"
-                    >
-                      <span className="font-bold text-xs md:text-sm text-slate-900 pr-4 flex items-center gap-2">
-                        <HelpCircle className="w-4 h-4 text-slate-400 shrink-0" />
-                        {faq.question}
-                      </span>
-                      <ChevronDown className={`w-4 h-4 text-slate-400 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    
-                    <AnimatePresence>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.15 }}
-                          className="bg-white"
-                        >
-                          <div className="p-4 text-xs text-slate-600 leading-relaxed border-t border-slate-100 bg-sky-50/10">
-                            {faq.answer}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-        </section>
 
         {/* Mini Contact CTA Ribbon */}
         <section className="bg-[#002f5c] text-white py-12 relative overflow-hidden">
